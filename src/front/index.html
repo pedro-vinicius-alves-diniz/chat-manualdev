@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=send" />
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+        .material-symbols-outlined {
+            font-variation-settings:
+                'FILL' 1,
+                'wght' 400,
+                'GRAD' 0,
+                'opsz' 24
+        }
+    </style>
+
+    <script src="scripts.js" defer></script>
+    <title>Chat in Real Time - Manual do Dev</title>
+</head>
+
+<body>
+
+    <main class="container">
+        <section class="login">
+            <h2>Login</h2>
+            <form class="login__form">
+                <input type="text" class="login__input" placeholder="Insira seu nome" required>
+                <button type="submit" class="login__submit">Entrar</button>
+            </form>
+        </section>
+
+        <section class="chat">
+            <div class="chat__messages">
+                <!-- <div class="self-message">Hello World!</div>
+                
+                <div class="other-message">
+                    <span class="message-sender">Jesus</span>
+                    <p>I died for you!</p>
+                </div> -->
+            </div>
+
+            <form class="chat__form">
+                <input type="text" class="chat__input" placeholder="Digite sua mensagem" required>
+                <button type="submit" class="chat__submit">
+                    <span class="material-symbols-outlined">
+                        send
+                    </span>
+                </button>
+            </form>
+        </section>
+    </main>
+</body>
+
+</html>
