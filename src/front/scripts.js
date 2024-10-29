@@ -25,6 +25,29 @@ const colors = [
 
 let websocket
 // FUNCTIONS
+function tocarNotificacao() {
+    const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+    const oscillator = audioContext.createOscillator();
+    const gainNode = audioContext.createGain();
+
+
+    // Configura o oscilador para criar uma onda senoidal (som suave)
+    oscillator.type = "sine";
+    oscillator.frequency.setValueAtTime(440, audioContext.currentTime); // Frequência em Hz (440 Hz = nota A)
+
+    // Configura o ganho para controlar o volume e fazer o som decair
+    gainNode.gain.setValueAtTime(0.1, audioContext.currentTime); // Volume inicial
+    gainNode.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + 1); // Decai em 1 segundo
+
+    // Conecta o oscilador ao ganho e depois ao contexto de áudio
+    oscillator.connect(gainNode);
+    gainNode.connect(audioContext.destination);
+
+    // Inicia e para o som
+    oscillator.start();
+    oscillator.stop(audioContext.currentTime + 1); // Som dura 1 segundo
+}
+
 const getRandomColor = () => {
     const randomIndex = Math.floor(Math.random() * colors.length);
     return colors[randomIndex];
@@ -52,7 +75,7 @@ const createMessageOther = (content, name) => {
     return div;
 }
 
-const scrollScreen = () =>{
+const scrollScreen = () => {
     window.scrollTo({
         top: document.body.scrollHeight,
         behavior: "smooth"
@@ -74,6 +97,7 @@ const processMessage = ({ data }) => {
 
         chatMessages.appendChild(elementOther);
         scrollScreen();
+        tocarNotificacao();
     }
 
 }
