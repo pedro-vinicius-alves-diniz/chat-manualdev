@@ -1,3 +1,15 @@
+document.addEventListener('deviceready', onDeviceReady, false);
+
+function onDeviceReady() {
+    // Cordova is now initialized. Have fun!
+
+    console.log('Running cordova-' + cordova.platformId + '@' + cordova.version);
+
+    // EVENTS
+    loginForm.addEventListener('submit', handleLogin);
+    chatForm.addEventListener('submit', sendMessage);
+}
+
 
 // LOGIN ELEMENTS
 const login = document.querySelector('.login');
@@ -10,6 +22,7 @@ const chat = document.querySelector('.chat');
 const chatForm = chat.querySelector('.chat__form');
 const chatInput = chat.querySelector('.chat__input');
 const chatMessages = chat.querySelector('.chat__messages');
+const sender = chat.querySelector('.message-sender');
 
 
 // VARIABLES
@@ -25,6 +38,7 @@ const colors = [
 ]
 
 let websocket
+
 // FUNCTIONS
 function tocarNotificacao() {
     const audioContext = new (window.AudioContext || window.webkitAudioContext)();
@@ -96,11 +110,28 @@ const processMessage = ({ data }) => {
     } else {
         const elementOther = createMessageOther(content, userName);
 
+
         chatMessages.appendChild(elementOther);
         scrollScreen();
-        tocarNotificacao();
+        
+
+        if (document.hidden === true) {
+            tocarNotificacao();
+            
+            cordova.plugins.notification.local.schedule({
+                id: new Date().getTime(), // ID único baseado no timestamp
+                title: userName,
+                text: content,
+                badge: 1, // Incrementar o badge
+                sound: 'file://soundfile.mp3',
+                data: { messageID: 123 } // Dados personalizados para cada notificação
+            });
+        }
+
+
     }
 
+    console.log(document.hidden)
 }
 
 const handleLogin = (event) => {
@@ -130,9 +161,7 @@ const sendMessage = (event) => {
     websocket.send(JSON.stringify(message));
 
     chatInput.value = ""
+
 }
 
 
-// EVENTS
-loginForm.addEventListener('submit', handleLogin);
-chatForm.addEventListener('submit', sendMessage);
